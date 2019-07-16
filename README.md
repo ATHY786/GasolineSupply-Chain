@@ -1,2 +1,0 @@
-# gasoline-supplychain
-Hyperledger composer 
