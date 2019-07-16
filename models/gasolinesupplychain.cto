@@ -1,0 +1,96 @@
+/**
+ * Business network definition for gasoline-supply-chain.
+ */
+namespace gasolinesupplychain
+
+asset Gasoline identified by BatchId {
+  o String BatchId
+  o DateTime timestamp optional 
+  o Double quantity
+  --> Refinery refinery
+  }
+
+participant Refinery identified by refineryId {
+  o String refineryId
+  o String refineryName
+  o Double quantity
+    o Double account
+}
+
+participant Truck identified by truckId {
+  o String truckId
+  o Double quantity
+  o String flag
+  o DateTime loadtime optional
+  o DateTime unloadtime optional
+    -->Refinery refinery
+    -->Gasstation gasstation
+}
+
+participant Gasstation identified by gsId {
+  o String gsId
+  o String gsName
+  o Double quantity
+    o Double account
+}
+
+transaction Refine{
+  o Double quantity
+  -->Gasoline gasoline
+}
+
+transaction Load {
+    o DateTime loadtime optional
+    o Double quantity
+  --> Refinery refinery
+  --> Truck truck  
+}
+
+transaction Unload {
+o DateTime unloadtime optional
+o Double quantity
+  --> Truck truck
+  --> Gasstation gasstation
+}
+
+transaction Sell {
+  o Double quantity
+  -->Gasstation gasstation
+
+}
+
+transaction Historian{
+--> Truck truck
+}
+/** 
+
+event LoadNotification {
+    --> Gasoline gasoline
+    }
+
+
+
+event UnloadNotification {
+    --> Gasoline gasoline
+}
+
+
+*/
+
+/** 
+transaction ChangeStateToProduction {
+  --> Gasoline gasoline
+}
+
+transaction ChangeStateToFreezing {
+  -->Gasoline gasoline
+}
+
+transaction ChangeStateToPackaging {
+  --> Gasoline gasoline
+}
+
+transaction ChangeStateToDistribution {
+  --> Gasoline gasoline
+}
+*/
